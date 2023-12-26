@@ -30,7 +30,7 @@ class PneumoniaDetector:
 class BrainTumorDetector:
     def __init__(self):
         self.image_path = ""
-        self.model = load_model('b11model.h5')
+        self.model = load_model('b11_model.h5')
 
     def perform_brain_tumor_prediction(self):
         try:
