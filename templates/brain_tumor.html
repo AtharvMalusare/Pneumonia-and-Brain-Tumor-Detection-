@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Brain Tumor Detection</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #f3f3f3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        button {
+            margin-bottom: 10px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* GIF container */
+        #gifContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        #mainGif {
+            max-width: 400px;
+            max-height: 400px;
+        }
+
+        /* Result and information */
+        #predictionResult {
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        #predictionInfo {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        #predictionInfo ul {
+            padding-left: 20px;
+        }
+
+        #errorMessage {
+            color: red;
+            display: none;
+        }
+
+        /* Adjusted button styles */
+        #uploadAndPredictBtn {
+            margin-bottom: 10px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        #uploadAndPredictBtn:hover {
+            background-color: #ddd;
+        }
+
+        /* Footer styling */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function uploadAndPredictBrainTumor() {
+            var formData = new FormData();
+            var fileInput = document.getElementById('fileInput');
+            formData.append('file', fileInput.files[0]);
+
+            $.ajax({
+                url: '/upload_brain_tumor',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    console.log('Image uploaded for brain tumor detection');
+                    document.getElementById('errorMessage').style.display = 'none'; // Hide error message if previously shown
+                    predictBrainTumor();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function predictBrainTumor() {
+            $.ajax({
+                url: '/predict_brain_tumor',
+                type: 'POST',
+                success: function(response) {
+                    document.getElementById('predictionResult').innerHTML = 'Prediction: ' + response.prediction;
+                    updateGif(response.prediction);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function updateGif(prediction) {
+            var mainGif = document.getElementById('mainGif');
+            if (prediction === 'Tumor') {
+                mainGif.src = '/static/unhealthy.gif'; // Display 'unhealthy.gif' if brain tumor detected
+                displayTumorInfo();
+            } else {
+                mainGif.src = '/static/healthy.gif'; // Display 'healthy.gif' if no brain tumor detected
+                displayHealthyInfo();
+            }
+        }
+
+        function displayTumorInfo() {
+            document.getElementById('predictionInfo').innerHTML = "<h3>What to do if Brain Tumor Detected?</h3><ul><li>Seek immediate medical attention and consult a specialist.</li><li>Discuss treatment options with healthcare professionals.</li><li>Follow the recommended course of action and medical advice.</li></ul>";
+        }
+
+        function displayHealthyInfo() {
+            document.getElementById('predictionInfo').innerHTML = "<h3>What to do if No Brain Tumor Detected?</h3><ul><li>Ensure regular health check-ups for preventive care.</li><li>Maintain a healthy lifestyle with balanced diet and exercise.</li><li>Seek medical advice for any concerns or symptoms.</li></ul>";
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Brain Tumor Detection</h1>
+    <!-- GIF container -->
+    <div id="gifContainer">
+        <img id="mainGif" src="/static/background.gif" alt="Main GIF">
+    </div>
+    <input type="file" id="fileInput" onchange="uploadAndPredictBrainTumor()" style="display: none;"><br>
+    <button id="uploadAndPredictBtn" onclick="document.getElementById('fileInput').click()">Upload & Predict</button><br>
+    <div id="predictionResult"></div>
+    <div id="predictionInfo"></div>
+    <div id="errorMessage"></div>
+    <div id="info">
+        <h2>About Brain Tumors</h2>
+        <p>A brain tumor is an abnormal growth of cells within the brain. It can be benign (non-cancerous) or malignant (cancerous).</p>
+        <p>Our AI model can assist in identifying brain tumors, facilitating early diagnosis and appropriate medical guidance.</p>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <p>Made by - Atharv Malusare</p>
+        <p>Computer Engineer</p>
+        <p>
+            <a href="https://github.com/AtharvMalusare" target="_blank">GitHub</a> |
+            <a href="https://www.linkedin.com/in/atharv-malusare-8266b0252/" target="_blank">LinkedIn</a>
+        </p>
+    </footer>
+</body>
+
+</html>

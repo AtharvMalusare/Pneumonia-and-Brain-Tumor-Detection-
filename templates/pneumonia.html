@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pneumonia Detection</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #f3f3f3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        button {
+            margin-bottom: 10px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* GIF container */
+        #gifContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+
+
+        #mainGif {
+            max-width: 400px;
+            max-height: 400px;
+        }
+
+        /* Result and information */
+        #predictionResult {
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        #predictionInfo {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        #predictionInfo ul {
+            padding-left: 20px;
+        }
+
+        #errorMessage {
+            color: red;
+            display: none;
+        }
+
+        /* Footer styling */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+   <script>
+        function uploadAndPredictPneumonia() {
+            var formData = new FormData();
+            var fileInput = document.getElementById('fileInput');
+            formData.append('file', fileInput.files[0]);
+
+            $.ajax({
+                url: '/upload_pneumonia',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    console.log('Image uploaded for pneumonia detection');
+                    document.getElementById('errorMessage').style.display = 'none'; // Hide error message if previously shown
+                    predictPneumonia();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function predictPneumonia() {
+            $.ajax({
+                url: '/predict_pneumonia',
+                type: 'POST',
+                success: function(response) {
+                    document.getElementById('predictionResult').innerHTML = 'Prediction: ' + response.prediction;
+                    updatePneumoniaGif(response.prediction);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function updatePneumoniaGif(prediction) {
+            var mainGif = document.getElementById('mainGif');
+            if (prediction === 'Pneumonia') {
+                mainGif.src = '/static/disease.gif'; // Display 'disease.gif' if pneumonia detected
+                displayPneumoniaInfo();
+            } else {
+                mainGif.src = '/static/normal.gif'; // Display 'normal.gif' if no pneumonia detected
+                displayProtectionInfo();
+            }
+        }
+
+        function displayPneumoniaInfo() {
+            document.getElementById('predictionInfo').innerHTML = "<h3>Steps to be taken:</h3><ul><li>If you suspect you have pneumonia, seek medical attention immediately.</li><li>Pneumonia can be serious, especially in certain groups of people.</li><li>Follow your healthcare provider's advice and get plenty of rest.</li><li>Stay hydrated and take prescribed medications as directed.</li></ul>";
+        }
+
+        function displayProtectionInfo() {
+            document.getElementById('predictionInfo').innerHTML = "<h3>Steps to be taken:</h3><ul><li>Maintain good hygiene practices.</li><li>Wash hands frequently.</li><li>Avoid close contact with sick individuals.</li><li>Get vaccinated.</li><li>Ensure good ventilation in indoor spaces.</li><li>Maintain a healthy lifestyle with a balanced diet and regular exercise.</li></ul>";
+        }
+
+        function triggerFileInput() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileChange() {
+            uploadAndPredictPneumonia();
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Pneumonia Detection</h1>
+    <!-- GIF container -->
+    <div id="gifContainer">
+        <img id="mainGif" src="/static/picture.gif" alt="Main GIF">
+    </div>
+    <input type="file" id="fileInput" onchange="handleFileChange()" style="display: none;"><br>
+    <button onclick="triggerFileInput()">Upload & Predict</button><br>
+    <div id="predictionResult"></div>
+    <div id="predictionInfo"></div>
+    <div id="errorMessage"></div>
+    <div id="info">
+        <h2>About Pneumonia</h2>
+        <p>Pneumonia is a lung infection that can be severe, especially in certain groups of people. Seek medical attention immediately if suspected.</p>
+        <p>Our AI model can detect pneumonia from chest X-ray images, aiding in early diagnosis and timely treatment.</p>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <p>Made by - Atharv Malusare</p>
+        <p>Computer Engineer</p>
+        <p>
+            <a href="https://github.com/AtharvMalusare" target="_blank">GitHub</a> |
+            <a href="https://www.linkedin.com/in/atharv-malusare-8266b0252/" target="_blank">LinkedIn</a>
+        </p>
+    </footer>
+</body>
+
+</html>

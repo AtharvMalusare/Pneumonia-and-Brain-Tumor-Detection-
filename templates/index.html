@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Main Menu</title>
+    <style>
+        body {
+            background-color: #87CEFA;
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            padding: 5;
+        }
+
+        .main-menu {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        img {
+            width: 400px;
+            height: 400px;
+            margin-bottom: 40px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .options {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+            text-align: center;
+            display: block;
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: lightcyan;
+        }
+
+        .extra-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            background-color: #d3d3d3;
+            padding: 10px;
+            color: #333;
+            border-top: 1px solid #ccc;
+            margin-top: 20px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 10px; /* Adjusted footer text size to 10px */
+        }
+
+        .social-links {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        a:nth-child(odd) {
+            background-color: lightgreen;
+        }
+
+        a:nth-child(even) {
+            background-color: lightcoral;
+        }
+
+        .social-links p {
+            margin: 0;
+            display: inline-block;
+        }
+
+        .social-links a {
+            margin: 0 5px;
+            color: black;
+            font-size: 13px; /* Adjusted font size for social links */
+        }
+
+        p,
+        h1,
+        h2,
+        h3 {
+            font-size: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        h3 {
+            font-size: 22px;
+        }
+    </style>
+</head>
+
+<body class="body">
+    <div class="main-menu">
+        <h1>Main Menu</h1>
+        <p>Welcome to the Pneumonia Detection and Brain Tumor Detection Models</p>
+    </div>
+
+    <div>
+        <div>
+            <h2>Pneumonia Detection Model</h2>
+            <p>The Pneumonia Detection model utilizes Convolutional Neural Networks (CNNs) built using Keras and TensorFlow. It analyzes chest X-ray images achieving over 92% accuracy. The model employs OpenCV for image preprocessing before making predictions.</p>
+        </div>
+
+        <div>
+            <h2>Brain Tumor Detection Model</h2>
+            <p>The Brain Tumor Detection model also leverages CNNs using Keras and TensorFlow, achieving more than 95% accuracy. It processes brain MRI scans to distinguish between tumors and healthy brain tissue. Similar to the Pneumonia model, it uses OpenCV for image preprocessing.</p>
+        </div>
+
+        <img src="{{ url_for('static', filename='hospital.gif') }}" alt="Detection Options">
+
+        <div class="options">
+            <a href="/pneumonia">Pneumonia Detection</a>
+            <a href="/brain_tumor">Brain Tumor Detection</a>
+        </div>
+
+        <div class="extra-info">
+            <h2>Additional Information</h2>
+            <div class="info-section">
+                <h3>Pneumonia</h3>
+                <p>
+                    <strong>Description:</strong> Pneumonia is an infection that inflames the air sacs in one or both lungs. The air sacs may fill with fluid or pus, causing cough with phlegm or pus, fever, chills, and difficulty breathing.
+                    <br>
+                    <strong>Causes:</strong> Bacteria, viruses, or fungi can cause pneumonia. It can range in severity from mild to life-threatening.
+                    <br>
+                    <strong>Symptoms:</strong> Common symptoms include cough, fever, chills, difficulty breathing, fatigue, and chest pain.
+                    <br>
+                </p>
+                <h3>Brain Tumor</h3>
+                <p>
+                    <strong>Description:</strong> Brain tumors are abnormal growths in the brain that can be cancerous or noncancerous. They can arise from brain cells, the membranes covering the brain, nerves, or glands.
+                    <br>
+                    <strong>Types:</strong> Brain tumors are classified as primary or secondary. Primary tumors originate in the brain, while secondary tumors metastasize from other parts of the body.
+                    <br>
+                    <strong>Symptoms:</strong> Symptoms may vary based on the tumor's location and size but can include headaches, seizures, cognitive changes, vision problems, and speech difficulties.
+                    <br>
+                </p>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p style ="font-size:13px;">Made by - Atharv Malusare</p>
+            <p style ="font-size:13px;">Computer Engineer</p>
+            <div class="social-links">
+                <p>
+                    <a href="https://github.com/AtharvMalusare" target="_blank">GitHub</a> |
+                    <a href="https://www.linkedin.com/in/atharv-malusare-8266b0252/" target="_blank">LinkedIn</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
