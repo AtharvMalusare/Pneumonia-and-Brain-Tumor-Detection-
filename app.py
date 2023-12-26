@@ -73,7 +73,7 @@ def predict_brain_tumor():
 
 @app.route('/brain_tumor')
 def brain_tumor():
-    return render_template('brain_tumor.html')
+    return render_template('b11_tumor.html')
 
 @app.route('/upload_pneumonia', methods=['POST'])
 def upload_pneumonia():
