@@ -73,7 +73,7 @@ def predict_brain_tumor():
 
 @app.route('/brain_tumor')
 def brain_tumor():
-    return render_template('b11_tumor.html')
+    return render_template('brain_tumor.html')
 
 @app.route('/upload_pneumonia', methods=['POST'])
 def upload_pneumonia():
@@ -105,5 +105,5 @@ def upload_brain_tumor():
 
     return jsonify({'message': 'Image uploaded for brain tumor detection'})
 
-#if __name__ == '__main__':
-#    app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
