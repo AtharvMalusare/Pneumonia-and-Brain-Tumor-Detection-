@@ -105,5 +105,5 @@ def upload_brain_tumor():
 
     return jsonify({'message': 'Image uploaded for brain tumor detection'})
 
-if __name__ == '__main__':
-    app.run(debug=True)
+#if __name__ == '__main__':
+#    app.run(debug=True)
